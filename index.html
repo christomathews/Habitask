@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habitask - Elevate Your Routine</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <div class="brand">
+                <i data-lucide="check-circle" class="brand-icon"></i>
+                <h1>Habitask</h1>
+            </div>
+            <div id="login-form">
+                <h2>Welcome Back</h2>
+                <div class="input-group">
+                    <i data-lucide="user"></i>
+                    <input type="text" id="login-username" placeholder="Username">
+                </div>
+                <div class="input-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="login-password" placeholder="Password">
+                </div>
+                <button onclick="auth.login()">Sign In</button>
+                <p>New here? <a href="#" onclick="ui.toggleAuth(true)">Create Account</a></p>
+            </div>
+            <div id="signup-form" class="hidden">
+                <h2>Join Habitask</h2>
+                <div class="input-group">
+                    <i data-lucide="user-plus"></i>
+                    <input type="text" id="signup-username" placeholder="Choose Username">
+                </div>
+                <div class="input-group">
+                    <i data-lucide="shield-check"></i>
+                    <input type="password" id="signup-password" placeholder="Set Password">
+                </div>
+                <button onclick="auth.signup()">Create Account</button>
+                <p>Already have an account? <a href="#" onclick="ui.toggleAuth(false)">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-container" class="app-container hidden">
+        <header class="app-header">
+            <div class="logo">
+                <i data-lucide="zap"></i>
+                <span>Habitask</span>
+            </div>
+            <nav class="main-nav">
+                <button id="nav-habits" class="active" onclick="ui.switchPage('habits')">
+                    <i data-lucide="list-checks"></i> Habits
+                </button>
+                <button id="nav-analytics" onclick="ui.switchPage('analytics')">
+                    <i data-lucide="pie-chart"></i> Analytics
+                </button>
+            </nav>
+            <button class="logout-btn" onclick="auth.logout()">
+                <i data-lucide="log-out"></i>
+            </button>
+        </header>
+
+        <main id="habits-page" class="page">
+            <div class="date-navigator">
+                <button class="nav-arrow" onclick="habits.changeDate(-1)"><i data-lucide="chevron-left"></i></button>
+                <div class="date-info">
+                    <i data-lucide="calendar"></i>
+                    <h2 id="current-date-display">Today</h2>
+                </div>
+                <button class="nav-arrow" onclick="habits.changeDate(1)"><i data-lucide="chevron-right"></i></button>
+            </div>
+
+            <section class="add-habit-section">
+                <div class="input-with-icon">
+                    <i data-lucide="plus"></i>
+                    <input type="text" id="new-habit-name" placeholder="Build a new habit...">
+                </div>
+                <button onclick="habits.add()">Add</button>
+            </section>
+
+            <div id="habits-list" class="habits-list">
+                <!-- Habits injected here -->
+            </div>
+        </main>
+
+        <main id="analytics-page" class="page hidden">
+            <div class="analytics-header">
+                <h2>Performance Overview</h2>
+                <div class="filter-group">
+                    <button id="filter-week" class="active" onclick="analytics.setFilter('week')">Week</button>
+                    <button id="filter-month" onclick="analytics.setFilter('month')">Month</button>
+                    <button id="filter-year" onclick="analytics.setFilter('year')">Year</button>
+                </div>
+            </div>
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3><i data-lucide="award"></i> Completion Ratio</h3>
+                    <div id="completions-chart"></div>
+                </div>
+                <div class="chart-box">
+                    <h3><i data-lucide="clock"></i> Time Distribution</h3>
+                    <div id="time-chart"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Timer Modal -->
+    <div id="timer-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="timer-habit-name">Habit Name</h2>
+                <button class="close-x" onclick="ui.closeTimer()"><i data-lucide="x"></i></button>
+            </div>
+            <div class="timer-display" id="timer-clock">00:00:00</div>
+            <div class="timer-controls">
+                <button id="timer-start" class="btn-start" onclick="timer.start()">
+                    <i data-lucide="play"></i> Start
+                </button>
+                <button id="timer-pause" class="btn-pause hidden" onclick="timer.pause()">
+                    <i data-lucide="pause"></i> Pause
+                </button>
+                <button id="timer-stop" class="btn-stop" onclick="timer.stop()">
+                    <i data-lucide="square"></i> Stop & Save
+                </button>
+            </div>
+            <div class="manual-entry">
+                <label><i data-lucide="edit-3"></i> Manual Entry (minutes)</label>
+                <div class="manual-input-row">
+                    <input type="number" id="manual-time-input" placeholder="0">
+                    <button onclick="timer.saveManual()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
